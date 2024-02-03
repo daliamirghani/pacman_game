@@ -92,7 +92,7 @@ int main()
     pacman.setTextureRect(IntRect(1498, 0, 2996, 1381));
 
     pacman.setOrigin(pacman.getTextureRect().width / 4, pacman.getTextureRect().height / 2);
-    pacman.setPosition(80, 120);
+    pacman.setPosition(75, 115);
     pacman.setScale(Vector2f(0.02f, 0.02f));
 
     RenderWindow window(VideoMode(800, 800), "Pacman");
