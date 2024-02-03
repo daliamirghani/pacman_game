@@ -94,6 +94,7 @@ int main()
     pacman.setPosition(75, 115);
     pacman.setScale(Vector2f(0.02f, 0.02f));
 
+    Texture Pactexture;
     RenderWindow window(VideoMode(800, 800), "Pacman");
     while (window.isOpen())
     {
@@ -185,6 +186,7 @@ int main()
                 if (board[pacman_position.x][pacman_position.y] != 0)
 
                     pacman.move(0, speed);
+                    Pacsprite.setTextureRect(IntRect((i * 65), 64, 65, 64));
             }
             else if (Keyboard::isKeyPressed(Keyboard::Left))
             {
@@ -197,6 +199,7 @@ int main()
                 if (board[pacman_position.x][pacman_position.y] != 0)
 
                     pacman.move(speed, 0);
+                    Pacsprite.setTextureRect(IntRect((i * 65), 0, 65, 64));
             }
 
         window.draw(pacman);
