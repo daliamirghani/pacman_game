@@ -89,7 +89,7 @@ int main()
     float margin = (800 - 19 * 40.0f) / 2;
     pacman.setTexture(pac);
     pacman.setPosition(80, 100);
-
+    pacman.setOrigin(pacman.getTextureRect().width / 4, pacman.getTextureRect().height/  2);
 
 
     pacman.setTextureRect(IntRect(1498, 0, 2996, 1381));
@@ -187,8 +187,8 @@ int main()
              velocity.y = 0;
          }*/
 
-        pacman_position.x = ((pacman.getPosition().x) +(800 - 19 * 40.0f) / 2)/40;
-        pacman_position.y = ((pacman.getPosition().y) + (800 - 19 * 40.0f) / 2) / 40;
+        pacman_position.x = (pacman.getPosition().x) /40;
+        pacman_position.y =(pacman.getPosition().y) / 40;
             if (Keyboard::isKeyPressed(Keyboard::Up))
             {
                 if(pacman_position.y - 1 >=0 && board[pacman_position.x][pacman_position.y -1] != 0)
@@ -196,7 +196,7 @@ int main()
             }
             else if (Keyboard::isKeyPressed(Keyboard::Down))
             {
-                if (pacman_position.y + 1 < 19 && board[pacman_position.x][pacman_position.y] != 0)
+                if (pacman_position.y + 1 < 19 && board[pacman_position.x][pacman_position.y+1] != 0)
 
                     pacman.move(0, speed);
             }
@@ -208,7 +208,7 @@ int main()
             }
             else if (Keyboard::isKeyPressed(Keyboard::Right))
             {
-                if (pacman_position.x +1 < 19 && board[pacman_position.x][pacman_position.y] != 0)
+                if (pacman_position.x +1 < 19 && board[pacman_position.x+1][pacman_position.y] != 0)
 
                     pacman.move(speed, 0);
             }
