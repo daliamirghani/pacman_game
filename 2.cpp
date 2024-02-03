@@ -4,14 +4,13 @@
 using namespace sf;
 using namespace std;
 
-float deltatime;
+float deltaTime = 0;
 Clock gameclock;
 
 float timer = 0.0f;
 float delay = 0.5f;
 
 Vector2f velocity = { 0,0 };
-
 
 int score = 0;
 int lives = 3;
@@ -82,19 +81,16 @@ int main()
     coin.setTexture(cointexture);
     coin.setScale(0.03, 0.03);
 
-    Texture pac;
-    pac.loadFromFile("./pics/pacman2.PNG");
-    Sprite pacman;
-    Vector2i pacman_position(0, 0);
-    pacman.setTexture(pac);
-
-    pacman.setTextureRect(IntRect(1498, 0, 2996, 1381));
-
-    pacman.setOrigin(pacman.getTextureRect().width / 4, pacman.getTextureRect().height / 2);
-    pacman.setPosition(75, 115);
-    pacman.setScale(Vector2f(0.02f, 0.02f));
+    
 
     Texture Pactexture;
+    Pactexture.loadFromFile("./pics/pacman2.PNG");
+    Sprite Pacsprite(Pactexture);
+    Pacsprite.setTextureRect(IntRect(0, 0, 65, 64));
+    Pacsprite.setPosition(Vector2f(50.0f, 50.0f));
+    Pacsprite.setOrigin(Pacsprite.getTextureRect().width / 2, Pacsprite.getTextureRect().height / 2);
+    Vector2i Pacsprite_position(0, 0);
+
     RenderWindow window(VideoMode(800, 800), "Pacman");
     while (window.isOpen())
     {
@@ -123,7 +119,7 @@ int main()
         //    level4 = true;
         //}
 
-        deltatime = gameclock.getElapsedTime().asSeconds();
+        deltaTime = gameclock.getElapsedTime().asSeconds();
         float speed = 0.18;
 
         Event event;
@@ -146,12 +142,18 @@ int main()
                 {
                     wall.setPosition(i * 40.0f + (800 - 19 * 40.0f) / 2, j * 40.0f + (800 - 19 * 40.0f) / 2);
                     window.draw(wall);
+                    //if (pacman.getGlobalBounds().intersects(wall.getGlobalBounds()))
+                    //{
+                    //    //////////////////////////////////////////////////////
+                    //}
+
+
                 }
                 else if (board[i][j] == 1)
                 {
                     point.setPosition(i * 40.0f + (800 - 19 * 40.0f) / 2 + 13.0f, j * 40.0f + (800 - 19 * 40.0f) / 2 + 13.0f);
                     pathp.setPosition(i * 40.0f + (800 - 19 * 40.0f) / 2, j * 40.0f + (800 - 19 * 40.0f) / 2);
-                    if (pacman.getGlobalBounds().intersects(point.getGlobalBounds()))
+                    if (Pacsprite.getGlobalBounds().intersects(point.getGlobalBounds()))
                     {
                         point.setFillColor(Color::Blue);
                         board[i][j] = 2; // Update the board to mark the point as eaten
@@ -174,35 +176,91 @@ int main()
             }
         }
        
-        pacman_position.x = (pacman.getPosition().x) /40;
-        pacman_position.y =(pacman.getPosition().y) / 40;
-            if (Keyboard::isKeyPressed(Keyboard::Up))
-            {
-                if(board[pacman_position.x][pacman_position.y -1] != 0)
-                    pacman.move(0, -speed);
-            }
-            else if (Keyboard::isKeyPressed(Keyboard::Down))
-            {
-                if (board[pacman_position.x][pacman_position.y] != 0)
 
-                    pacman.move(0, speed);
+        Pacsprite_position.x = (Pacsprite.getPosition().x) / 40;
+        Pacsprite_position.y = (Pacsprite.getPosition().y) / 40;
+        if (Keyboard::isKeyPressed(Keyboard::Up))
+        {
+            if (board[Pacsprite_position.x][Pacsprite_position.y - 1] != 0)
+            {
+                velocity.x = 0;
+                if (timer < 0)
+                {
+                    //Pacsprite.setScale(1, -1);
+                    i++;
+                    i = i % 2;
+                    Pacsprite.setTextureRect(IntRect((i * 65), 192, 65, 64));
+                    velocity.y = -speed;
+                    timer = delay;
+                }
+                else
+                    timer -= deltaTime;
+            }
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Down))
+        {
+            if (board[Pacsprite_position.x][Pacsprite_position.y] != 0)
+
+            {
+                velocity.x = 0;
+                if (timer < 0)
+                {
+                    //Pacsprite.setScale(1, 1);
+                    i++;
+                    i = i % 2;
                     Pacsprite.setTextureRect(IntRect((i * 65), 64, 65, 64));
+                    velocity.y = speed;
+                    timer = delay;
+                }
+                else
+                    timer -= deltaTime;
             }
-            else if (Keyboard::isKeyPressed(Keyboard::Left))
-            {
-                if (board[pacman_position.x-1][pacman_position.y] != 0)
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Left))
+        {
+            if (board[Pacsprite_position.x - 1][Pacsprite_position.y] != 0)
 
-                    pacman.move(-speed, 0);
+            {
+                velocity.y = 0;
+                if (timer < 0)
+                {
+                    //Pacsprite.setScale(-1, 1);
+                    i++;
+                    i = i % 2;
+                    Pacsprite.setTextureRect(IntRect((i * 65), 128, 65, 64));
+                    velocity.x = -speed;
+                    timer = delay;
+                }
+                else
+                    timer -= deltaTime;
             }
-            else if (Keyboard::isKeyPressed(Keyboard::Right))
+        }
+        else if (Keyboard::isKeyPressed(Keyboard::Right))
+        {
+            if (board[Pacsprite_position.x][Pacsprite_position.y] != 0)
             {
-                if (board[pacman_position.x][pacman_position.y] != 0)
-
-                    pacman.move(speed, 0);
+                velocity.y = 0;
+                if (timer < 0)
+                {
+                    //Pacsprite.setScale(1, 1);
+                    i++;
+                    i = i % 2;
                     Pacsprite.setTextureRect(IntRect((i * 65), 0, 65, 64));
+                    velocity.x = speed;
+                    timer = delay;
+                }
+                else
+                    timer -= deltaTime;
             }
+        }
+        else
+        {
+            velocity.x = 0;
+            velocity.y = 0;
+        }
+        Pacsprite.move(velocity);
 
-        window.draw(pacman);
+        window.draw(Pacsprite);
         window.draw(strawberry);
         window.draw(cherry);
         window.draw(coin);
