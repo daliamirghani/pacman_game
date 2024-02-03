@@ -86,7 +86,6 @@ int main()
     pac.loadFromFile("./pics/pacman2.PNG");
     Sprite pacman;
     Vector2i pacman_position(0, 0);
-    float margin = (800 - 19 * 40.0f) / 2;
     pacman.setTexture(pac);
 
     pacman.setTextureRect(IntRect(1498, 0, 2996, 1381));
@@ -146,12 +145,6 @@ int main()
                 {
                     wall.setPosition(i * 40.0f + (800 - 19 * 40.0f) / 2, j * 40.0f + (800 - 19 * 40.0f) / 2);
                     window.draw(wall);
-                    //if (pacman.getGlobalBounds().intersects(wall.getGlobalBounds()))
-                    //{
-                    //    //////////////////////////////////////////////////////
-                    //}
-                
-
                 }
                 else if (board[i][j] == 1)
                 {
@@ -179,13 +172,7 @@ int main()
                 }
             }
         }
-        /* pacman.move(velocity);
-         if (pacman.getGlobalBounds().intersects(map2.getGlobalBounds()))
-         {
-             velocity.x = 0;
-             velocity.y = 0;
-         }*/
-
+       
         pacman_position.x = (pacman.getPosition().x) /40;
         pacman_position.y =(pacman.getPosition().y) / 40;
             if (Keyboard::isKeyPressed(Keyboard::Up))
