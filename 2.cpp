@@ -213,7 +213,7 @@ int main()
                     {
                         point.setFillColor(Color::Blue);
                         board[i][j] = 2;
-                        score += 2;
+                        score += 15;
                     }
                     else
                     {
@@ -344,7 +344,7 @@ int main()
         window.display();
         window.clear();
 
-
+        cout << score << endl;
     }
 
     return 0;
