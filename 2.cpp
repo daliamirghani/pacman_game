@@ -200,7 +200,7 @@ int game() {
 
     Text winText = createText(font, "You Won!", 50, Color::Green, 300, 350);
     Text loseText = createText(font, "You Lost", 50, Color::Red, 300, 350);
-    Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 300, 350);
+    Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 120, 350);
 
  /*    pauseText.setFillColor(Color::White);
      pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);*/
@@ -364,13 +364,7 @@ int game() {
                 y4 -= ghosts_speed;
 
 
-            if (lives == 0)
-            {
-                //window.draw(loseText);
-                //isPaused == true;
-                window.close();
 
-            }
             if (Pacsprite.getGlobalBounds().intersects(g1.getGlobalBounds()))
             {
                 if (level2)
@@ -700,6 +694,8 @@ int game() {
                 window.draw(coin4);
             }
         }
+        else
+            window.draw(pauseText);
         window.display();
         deltaTime = clock.getElapsedTime().asSeconds();
         cout << score << endl;
