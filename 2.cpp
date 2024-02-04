@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <time.h>
 using namespace sf;
 using namespace std;
@@ -188,55 +189,106 @@ int main()
     //    cerr << "Failed to load font" << endl;
     /////    return 1;
    // }
-    
+
     RenderWindow window(VideoMode(800, 800), "Pacman");
     //Text pauseText("Press space to pause", font, 20);
    // pauseText.setFillColor(Color::White);
   //  pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);
+
+    SoundBuffer coinbuffer;
+    if (!coinbuffer.loadFromFile("coin.wav"))
+    {
+        return -1;
+    }
+    Sound coinsound;
+    coinsound.setBuffer(coinbuffer);
+    coinsound.setVolume(100.0f);
+
+
+
+    SoundBuffer fruitbuffer;
+    if (!fruitbuffer.loadFromFile("eat_fruit.wav"))
+    {
+        return -1;
+    }
+    Sound fruitsound;
+    fruitsound.setBuffer(fruitbuffer);
+    fruitsound.setVolume(100.0f);
+
+
+    SoundBuffer ghostbuffer;
+    if (!ghostbuffer.loadFromFile("ghost.wav"))
+    {
+        return -1;
+    }
+    Sound ghostsound;
+    ghostsound.setBuffer(ghostbuffer);
+    ghostsound.setVolume(100.0f);
+
+
+
+    SoundBuffer eat_ghostbuffer;
+  if (!eat_ghostbuffer.loadFromFile("eat_ghost.mp3"))
+    {
+       return -1;
+    }
+    Sound eat_ghostsound;
+    eat_ghostsound.setBuffer(eat_ghostbuffer);
+    eat_ghostsound.setVolume(100.0f);
+
+
+
+    SoundBuffer level_upbuffer;
+    if (!level_upbuffer.loadFromFile("level_up.wav"))
+    {
+        return -1;
+    }
+    Sound level_upsound;
+    level_upsound.setBuffer(level_upbuffer);
+    level_upsound.setVolume(100.0f);
+
+
     while (window.isOpen())
     {
         window.clear();
 
         if (score >= 500 && !level2)
         {
-
-            // play sound effect
+            level_upsound.play();
             level++;
             g1.setTexture(edible_ghost);
             g1.setTextureRect(IntRect(0, 0, 64, 64));
             g1.setScale(0.55, 0.55);
             level2 = true;
-
-
         }
+
         if (score >= 1000 && !level3)
         {
-            // play sound effect
+            level_upsound.play();
             level++;
             g2.setTexture(edible_ghost);
             g2.setTextureRect(IntRect(0, 0, 64, 64));
             g2.setScale(0.55, 0.55);
             level3 = true;
         }
+
         if (score >= 1500 && !level4)
         {
             level++;
-            // play sound effect
+            level_upsound.play();
             g3.setTexture(edible_ghost);
             g3.setTextureRect(IntRect(0, 0, 64, 64));
             g3.setScale(0.55, 0.55);
             level4 = true;
-
         }
         if (score >= 2000 && !level5)
         {
             level++;
-            // play sound effect
+            level_upsound.play();
             g4.setTexture(edible_ghost);
             g4.setTextureRect(IntRect(0, 0, 64, 64));
             g4.setScale(0.55, 0.55);
             level5 = true;
-
         }
 
         Event event;
@@ -308,13 +360,14 @@ int main()
             {
                 if (level2)
                 {
-                    // sound effect of eating ghost
+                    eat_ghostsound.play();
                     ghost1_eaten = true;
                     g1.setPosition(7000, 7000);
                 }
                 else
                 {
                     Pacsprite.setPosition(78.0f, 120.0f);
+                    ghostsound.play();
                     lives--;
                 }
             }
@@ -322,7 +375,7 @@ int main()
             {
                 if (level3)
                 {
-                    // sound effect of eating ghost
+                    eat_ghostsound.play();
                     ghost2_eaten = true;
                     g2.setPosition(7000, 7000);
 
@@ -330,6 +383,7 @@ int main()
                 else
                 {
                     Pacsprite.setPosition(78.0f, 120.0f);
+                    ghostsound.play();
                     lives--;
                 }
 
@@ -338,7 +392,7 @@ int main()
             {
                 if (level4)
                 {
-                    // sound effect of eating ghost
+                    eat_ghostsound.play();
                     ghost3_eaten = true;
                     g3.setPosition(7000, 7000);
 
@@ -346,6 +400,7 @@ int main()
                 else
                 {
                     Pacsprite.setPosition(78.0f, 120.0f);
+                    ghostsound.play();
                     lives--;
                 }
             }
@@ -354,7 +409,7 @@ int main()
             {
                 if (level5)
                 {
-                    // sound effect of eating ghost
+                    eat_ghostsound.play();
                     ghost4_eaten = true;
                     g4.setPosition(7000, 7000);
 
@@ -362,6 +417,7 @@ int main()
                 else
                 {
                     Pacsprite.setPosition(78.0f, 120.0f);
+                    ghostsound.play();
                     lives--;
                 }
             }
@@ -371,6 +427,7 @@ int main()
                 score += 25;
                 straw_eaten = true;
                 strawberry.setPosition(7000, 7000);
+                fruitsound.play();
             }
 
             if (Pacsprite.getGlobalBounds().intersects(cherry.getGlobalBounds()))
@@ -378,6 +435,7 @@ int main()
                 score += 30;
                 cherry_eaten = true;
                 cherry.setPosition(7000, 7000);
+                fruitsound.play();
             }
 
             if (Pacsprite.getGlobalBounds().intersects(coin.getGlobalBounds()))
@@ -385,24 +443,28 @@ int main()
                 score += 50;
                 coin_eaten = true;
                 coin.setPosition(7000, 7000);
+                fruitsound.play();
             }
             if (Pacsprite.getGlobalBounds().intersects(coin2.getGlobalBounds()))
             {
                 score += 50;
                 coin2_eaten = true;
                 coin2.setPosition(7000, 7000);
+                fruitsound.play();
             }
             if (Pacsprite.getGlobalBounds().intersects(coin3.getGlobalBounds()))
             {
                 score += 50;
                 coin3_eaten = true;
                 coin3.setPosition(7000, 7000);
+                fruitsound.play();
             }
             if (Pacsprite.getGlobalBounds().intersects(coin4.getGlobalBounds()))
             {
                 score += 50;
                 coin4_eaten = true;
                 coin4.setPosition(7000, 7000);
+                fruitsound.play();
             }
             /*window.clear();*/
 
@@ -423,6 +485,7 @@ int main()
                         if (Pacsprite.getGlobalBounds().intersects(point.getGlobalBounds()))
                         {
                             point.setFillColor(Color::Blue);
+                            coinsound.play();
                             board[i][j] = 2;
                             score += 15;
                         }
