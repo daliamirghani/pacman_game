@@ -61,10 +61,16 @@ int board[19][19] =
   {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
+int game();
 
 int main()
 {
 
+    game();
+    return 0;
+}
+
+int game() {
     srand(time(nullptr));
     float y1 = rand() % 600, x1 = rand() % 600;
     float y2 = rand() % 600, x2 = rand() % 600;
@@ -184,16 +190,16 @@ int main()
 
     bool isPaused = false;
     //Font font;
-  //  if (!font.loadFromFile(".namecat/Namecat.ttf"))
-   // {
-    //    cerr << "Failed to load font" << endl;
-    /////    return 1;
-   // }
+    //  if (!font.loadFromFile(".namecat/Namecat.ttf"))
+     // {
+      //    cerr << "Failed to load font" << endl;
+      /////    return 1;
+     // }
 
     RenderWindow window(VideoMode(800, 800), "Pacman");
     //Text pauseText("Press space to pause", font, 20);
-   // pauseText.setFillColor(Color::White);
-  //  pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);
+    // pauseText.setFillColor(Color::White);
+    //  pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);
 
     SoundBuffer coinbuffer;
     if (!coinbuffer.loadFromFile("coin.wav"))
@@ -228,9 +234,9 @@ int main()
 
 
     SoundBuffer eat_ghostbuffer;
-  if (!eat_ghostbuffer.loadFromFile("eat_ghost.mp3"))
+    if (!eat_ghostbuffer.loadFromFile("eat_ghost.mp3"))
     {
-       return -1;
+        return -1;
     }
     Sound eat_ghostsound;
     eat_ghostsound.setBuffer(eat_ghostbuffer);
@@ -766,5 +772,4 @@ int main()
         cout << level << endl;
 
     }
-    return 0;
 }
