@@ -31,6 +31,7 @@ bool level3 = false;
 bool level4 = false;
 bool level5 = false;
 
+
 //void resetGhostPosition(Sprite& ghost)
 //{
 //    float x = rand() % 600;
@@ -189,6 +190,8 @@ int game() {
 
 
     bool isPaused = false;
+    bool isWon = false;
+    bool isLost = false;
     Font font;
      if (!font.loadFromFile("Namecat.ttf"))
     {
@@ -314,7 +317,13 @@ int game() {
         }
         //  window.clear();
 
-        if (!isPaused)
+        if (isPaused )
+            window.draw(pauseText);
+        else if (isWon)
+            window.draw(winText);
+        else if (isLost)
+            window.draw(loseText);
+        else
         {
            
 
@@ -694,8 +703,7 @@ int game() {
                 window.draw(coin4);
             }
         }
-        else
-            window.draw(pauseText);
+  
         window.display();
         deltaTime = clock.getElapsedTime().asSeconds();
         cout << score << endl;
