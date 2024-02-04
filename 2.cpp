@@ -202,7 +202,7 @@ int game() {
     RenderWindow window(VideoMode(800, 800), "Pacman");
 
     Text winText = createText(font, "You Won!", 50, Color::Green, 300, 350);
-    Text loseText = createText(font, "You Lost", 50, Color::Red, 300, 350);
+    Text loseText = createText(font, "You Lost :(", 50, Color::Red, 300, 350);
     Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 120, 350);
 
  /*    pauseText.setFillColor(Color::White);
@@ -430,7 +430,7 @@ int game() {
                     eat_ghostsound.play();
                     ghost4_eaten = true;
                     g4.setPosition(7000, 7000);
-                    window.draw(winText);
+                    isWon = true;
 
 
 
@@ -443,7 +443,8 @@ int game() {
                     lives--;
                 }
             }
-
+            if (lives == 0)
+                isLost = true;
             if (Pacsprite.getGlobalBounds().intersects(strawberry.getGlobalBounds()))
             {
                 score += 25;
