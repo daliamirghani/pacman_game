@@ -645,7 +645,7 @@ int main()
                 velocity.x = 0;
                 velocity.y = 0;
             }
-        }
+
             Pacsprite.move(velocity);
             g1.setPosition(x1, y1);
             g2.setPosition(x2, y2);
@@ -653,48 +653,49 @@ int main()
             g4.setPosition(x4, y4);
 
 
-     
-        window.draw(Pacsprite);
 
-        if (!ghost1_eaten)
-        {
-            window.draw(g1);
-        }
-        if (!ghost2_eaten)
-        {
-            window.draw(g2);
-        }
-        if (!ghost3_eaten)
-        {
-            window.draw(g3);
-        }
-        if (!ghost4_eaten)
-        {
-            window.draw(g4);
-        }
-        if (!straw_eaten)
-        {
-            window.draw(strawberry);
-        }
-        if (!cherry_eaten)
-        {
-            window.draw(cherry);
-        }
-        if (!coin_eaten)
-        {
-            window.draw(coin);
-        }
-        if (!coin2_eaten)
-        {
-            window.draw(coin2);
-        }
-        if (!coin3_eaten)
-        {
-            window.draw(coin3);
-        }
-        if (!coin4_eaten)
-        {
-            window.draw(coin4);
+            window.draw(Pacsprite);
+
+            if (!ghost1_eaten)
+            {
+                window.draw(g1);
+            }
+            if (!ghost2_eaten)
+            {
+                window.draw(g2);
+            }
+            if (!ghost3_eaten)
+            {
+                window.draw(g3);
+            }
+            if (!ghost4_eaten)
+            {
+                window.draw(g4);
+            }
+            if (!straw_eaten)
+            {
+                window.draw(strawberry);
+            }
+            if (!cherry_eaten)
+            {
+                window.draw(cherry);
+            }
+            if (!coin_eaten)
+            {
+                window.draw(coin);
+            }
+            if (!coin2_eaten)
+            {
+                window.draw(coin2);
+            }
+            if (!coin3_eaten)
+            {
+                window.draw(coin3);
+            }
+            if (!coin4_eaten)
+            {
+                window.draw(coin4);
+            }
         }
         window.display();
         deltaTime = clock.getElapsedTime().asSeconds();
