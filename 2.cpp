@@ -202,7 +202,7 @@ int game() {
     RenderWindow window(VideoMode(800, 800), "Pacman");
 
     Text winText = createText(font, "You Won!", 50, Color::Green, 300, 350);
-    Text loseText = createText(font, "You Lost :(", 50, Color::Red, 300, 350);
+    Text loseText = createText(font, "You Lost :(", 50, Color::Red, 260, 350);
     Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 120, 350);
 
  /*    pauseText.setFillColor(Color::White);
