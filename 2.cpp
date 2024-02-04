@@ -62,10 +62,10 @@ int board[19][19] =
   {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 int game();
-
+Text createText(Font& font, const string& str, unsigned int characterSize, const sf::Color& fillColor, float x, float y);
 int main()
 {
-
+    
     game();
     return 0;
 }
@@ -189,17 +189,21 @@ int game() {
 
 
     bool isPaused = false;
-    //Font font;
-    //  if (!font.loadFromFile(".namecat/Namecat.ttf"))
-     // {
-      //    cerr << "Failed to load font" << endl;
-      /////    return 1;
-     // }
+    Font font;
+     if (!font.loadFromFile("Namecat.ttf"))
+    {
+         cerr << "Failed to load font" << endl;
+         return 1;
+     }
 
     RenderWindow window(VideoMode(800, 800), "Pacman");
-    //Text pauseText("Press space to pause", font, 20);
-    // pauseText.setFillColor(Color::White);
-    //  pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);
+
+    Text winText = createText(font, "You Won!", 50, Color::Green, 300, 350);
+    Text loseText = createText(font, "You Lost", 50, Color::Red, 300, 350);
+    Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 300, 350);
+
+ /*    pauseText.setFillColor(Color::White);
+     pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);*/
 
     SoundBuffer coinbuffer;
     if (!coinbuffer.loadFromFile("coin.wav"))
@@ -312,7 +316,7 @@ int game() {
 
         if (!isPaused)
         {
-
+           
 
             Vector2f pacPosition = Pacsprite.getPosition();
 
@@ -361,7 +365,12 @@ int game() {
 
 
             if (lives == 0)
+            {
+                //window.draw(loseText);
+                //isPaused == true;
                 window.close();
+
+            }
             if (Pacsprite.getGlobalBounds().intersects(g1.getGlobalBounds()))
             {
                 if (level2)
@@ -398,7 +407,7 @@ int game() {
             {
                 if (level4)
                 {
-                    eat_ghostsound.play();
+                    ghostsound.play();
                     ghost3_eaten = true;
                     g3.setPosition(7000, 7000);
 
@@ -418,6 +427,10 @@ int game() {
                     eat_ghostsound.play();
                     ghost4_eaten = true;
                     g4.setPosition(7000, 7000);
+                    window.draw(winText);
+
+
+
 
                 }
                 else
@@ -515,85 +528,6 @@ int game() {
 
             Pacsprite_position.x = (Pacsprite.getPosition().x) / 40.5;
             Pacsprite_position.y = (Pacsprite.getPosition().y) / 40.5;
-
-            //if (Keyboard::isKeyPressed(Keyboard::Up))
-            //{
-            //    if (board[Pacsprite_position.x][Pacsprite_position.y - 1] != 0)
-            //    {
-            //        velocity.x = 0;
-            //        if (timer < 0)
-            //        {
-            //            //Pacsprite.setScale(1, -1);
-            //            i++;
-            //            i = i % 2;
-            //           Pacsprite.setTextureRect(IntRect((i * 65.5), 192, 65.5, 64));
-            //            velocity.y = -speed;
-            //            timer = delay;
-            //        }
-            //        else
-            //            timer -= deltaTime;
-            //    }
-            //}
-            //else if (Keyboard::isKeyPressed(Keyboard::Down))
-            //{
-            //    if (board[Pacsprite_position.x][Pacsprite_position.y] != 0)
-            //    {
-            //        velocity.x = 0;
-            //        if (timer < 0)
-            //        {
-            //            //Pacsprite.setScale(1, 1);
-            //            i++;
-            //            i = i % 2;
-            //            Pacsprite.setTextureRect(IntRect((i * 65.5), 64, 65.5, 64));
-            //            velocity.y = speed;
-            //            timer = delay;
-            //        }
-            //        else
-            //            timer -= deltaTime;
-            //    }
-            //}
-            //else if (Keyboard::isKeyPressed(Keyboard::Left))
-            //{
-            //    if (board[Pacsprite_position.x - 1][Pacsprite_position.y] != 0)
-            //    {
-            //        velocity.y = 0;
-            //        if (timer < 0)
-            //        {
-            //           // Pacsprite.setScale(-1, 1);
-            //            i++;
-            //            i = i % 2;
-            //          Pacsprite.setTextureRect(IntRect((i * 65.5), 128, 65.5, 64));
-            //            velocity.x = -speed;
-            //            timer = delay;
-            //        }
-            //        else
-            //            timer -= deltaTime;
-            //    }
-            //}
-            //else if (Keyboard::isKeyPressed(Keyboard::Right))
-            //{
-            //    if (board[Pacsprite_position.x][Pacsprite_position.y] != 0)
-            //    {
-            //        velocity.y = 0;
-            //        if (timer < 0)
-            //        {
-            //           // Pacsprite.setScale(1, 1);
-            //            i++;
-            //            i = i % 2;
-            //           Pacsprite.setTextureRect(IntRect((i * 65.5), 0, 65.5, 64));
-            //            velocity.x = speed;
-            //            timer = delay;
-            //        }
-            //        else
-            //            timer -= deltaTime;
-            //    }
-            //}
-            //else
-            //{
-            //    velocity.x = 0;
-            //    velocity.y = 0;
-            //}
-
 
             if (Keyboard::isKeyPressed(Keyboard::Right))
             {
@@ -772,4 +706,15 @@ int game() {
         cout << level << endl;
 
     }
+}
+
+Text createText(Font& font, const string& str, unsigned int characterSize, const sf::Color& fillColor, float x, float y)
+{
+    Text text;
+    text.setFont(font);
+    text.setString(str);
+    text.setCharacterSize(characterSize);
+    text.setFillColor(fillColor);
+    text.setPosition(x, y);
+    return text;
 }
