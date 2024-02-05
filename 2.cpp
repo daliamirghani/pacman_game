@@ -1,15 +1,26 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <time.h>
+#include<ctime>
+#include<cstdlib>
+#include<string>
+#include "MainMenu.h"
+#include<iomanip>
 using namespace sf;
 using namespace std;
-
-float deltaTime = 0;
 Clock gameclock;
 
 float timer = 0.0f;
 float delay = 0.5f;
+float deltaTime = 0;
+
+//function to make ghosts go to random place after touching
+void resetGhostPosition(Sprite& ghost)
+{
+	float x = rand() % 800;
+	float y = rand() % 800;
+	ghost.setPosition(x, y);
+}
 
 bool straw_eaten = false;
 bool cherry_eaten = false;
@@ -32,12 +43,17 @@ bool level4 = false;
 bool level5 = false;
 
 
-//void resetGhostPosition(Sprite& ghost)
-//{
-//    float x = rand() % 600;
-//    float y = rand() % 600;
-//    ghost.setPosition(x, y);
-//}
+//function to create a name
+Text createText(Font& font, const string& str, unsigned int characterSize, const sf::Color& fillColor, float x, float y) {
+	Text text;
+	text.setFont(font);
+	text.setString(str);
+	text.setCharacterSize(characterSize);
+	text.setFillColor(fillColor);
+	text.setPosition(x, y);
+	return text;
+}
+
 
 
 int board[19][19] =
@@ -64,11 +80,136 @@ int board[19][19] =
 };
 int game();
 Text createText(Font& font, const string& str, unsigned int characterSize, const sf::Color& fillColor, float x, float y);
+
 int main()
 {
-    
-    game();
-    return 0;
+
+	RenderWindow window(VideoMode(800, 800), "Pac_Man!", Style::Close);
+	MainMenu menu(800, 800);
+	Texture menubackground;
+	//menubackground.loadFromFile("pacman.jpg");
+	Sprite bg; //bg for background
+	bg.setTexture(menubackground);
+	bg.setScale(0.5, 0.5);
+	int pagenum = 1000; //To know I had selsected which page?
+
+	bool isPaused = false;
+	while (true) {
+		if (pagenum == 1000) {
+			while (window.isOpen())
+			{
+				// clock.restart();
+				Event event;
+				while (window.pollEvent(event))
+				{
+					if (event.type == Event::Closed)
+					{
+						window.close();
+						break;
+					}
+					if (event.type == Event::KeyPressed && event.key.code == Keyboard::Space)
+					{
+
+						isPaused = !isPaused;
+					}
+					if (event.type == Event::KeyPressed)
+					{
+						if (event.key.code == Keyboard::Up)
+						{
+							menu.moveup();
+							break;
+						}
+					}
+					if (event.type == Event::KeyPressed)
+					{
+						if (event.key.code == Keyboard::Down)
+						{
+							menu.movedown();
+							break;
+						}
+					}
+					//chose page
+					if (event.key.code == Keyboard::Return)
+					{
+						if (menu.Pressed() == 0)
+						{
+							window.close();
+							pagenum = 0;   //option start a new game
+						}
+						if (menu.Pressed() == 1)
+						{
+							window.close();
+							pagenum = 1;   //option about us
+						}
+						if (menu.Pressed() == 2)
+						{
+							window.close();
+							pagenum = 2;   //option exit
+						}
+					}
+				}
+				window.clear();
+				window.draw(bg);
+				menu.draw(window);
+				window.display();
+
+
+			}
+
+
+
+
+            if (pagenum == 0)
+                game();
+
+		}
+
+		if (pagenum == 1) //option about us
+		{
+			RenderWindow window_about(VideoMode(800, 800), "Options", Style::Close);
+			MainMenu menu(800, 800);
+			Font font;
+			Texture menubackground;
+			//menubackground.loadFromFile("pacman.jpg");
+			Sprite bg; //bg for background
+			bg.setTexture(menubackground);
+			bg.setScale(0.5, 0.5);
+			font.loadFromFile("Namecat.ttf");
+
+			Text text1 = createText(font, "Dalia Ahmed                 Gehad Ebrahim", 24, Color(255, 204, 0), 180.f, 400.f);
+			Text text2 = createText(font, "Habiba Mokhtar              Tasneem Shelah", 24, Color(255, 204, 0), 170.f, 600.f);
+			Text text3 = createText(font, "               Lina Fadel", 24, Color(255, 204, 0), 250.f, 500.f);
+			Text text4 = createText(font, "Creators", 50, Color::Red, 285.f, 80.f);
+			Text text5 = createText(font, "About Us", 60, Color::Red, 270.f, 20.f);
+			while (window_about.isOpen()) {
+				Event event;
+				while (window_about.pollEvent(event)) {
+					if (event.type == Event::Closed) {
+						window_about.close();
+					}
+				}
+
+				window_about.clear();
+				window_about.draw(bg);
+				window_about.draw(text1);
+				window_about.draw(text2);
+				window_about.draw(text3);
+				window_about.draw(text4);
+				window_about.draw(text5);
+				window_about.display();
+			}
+		}
+
+		if (pagenum == 2)                  //option exit
+		{
+			break;
+
+		}
+	}
+
+
+
+	return 0;
 }
 
 int game() {
@@ -193,11 +334,11 @@ int game() {
     bool isWon = false;
     bool isLost = false;
     Font font;
-     if (!font.loadFromFile("Namecat.ttf"))
+    if (!font.loadFromFile("Namecat.ttf"))
     {
-         cerr << "Failed to load font" << endl;
-         return 1;
-     }
+        cerr << "Failed to load font" << endl;
+        return 1;
+    }
 
     RenderWindow window(VideoMode(800, 800), "Pacman");
 
@@ -205,8 +346,8 @@ int game() {
     Text loseText = createText(font, "You Lost :(", 50, Color::Red, 260, 350);
     Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 120, 350);
 
- /*    pauseText.setFillColor(Color::White);
-     pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);*/
+    /*    pauseText.setFillColor(Color::White);
+        pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);*/
 
     SoundBuffer coinbuffer;
     if (!coinbuffer.loadFromFile("coin.wav"))
@@ -326,7 +467,7 @@ int game() {
         }
         //  window.clear();
 
-        if (isPaused )
+        if (isPaused)
             window.draw(pauseText);
         else if (isWon)
             window.draw(winText);
@@ -334,7 +475,7 @@ int game() {
             window.draw(loseText);
         else
         {
-           
+
 
             Vector2f pacPosition = Pacsprite.getPosition();
 
@@ -717,22 +858,11 @@ int game() {
             window.draw(livesText);
 
         }
-  
+
         window.display();
         deltaTime = clock.getElapsedTime().asSeconds();
         cout << score << endl;
         cout << level << endl;
 
     }
-}
-
-Text createText(Font& font, const string& str, unsigned int characterSize, const sf::Color& fillColor, float x, float y)
-{
-    Text text;
-    text.setFont(font);
-    text.setString(str);
-    text.setCharacterSize(characterSize);
-    text.setFillColor(fillColor);
-    text.setPosition(x, y);
-    return text;
 }
