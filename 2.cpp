@@ -23,7 +23,7 @@ bool ghost2_eaten = false;
 bool ghost3_eaten = false;
 bool ghost4_eaten = false;
 
-int score = 000;
+int score = -15;
 int lives = 3;
 int level = 1;
 bool level2 = false;
@@ -264,6 +264,8 @@ int game() {
     while (window.isOpen())
     {
         window.clear();
+        Text scoreText = createText(font, "Score: " + to_string(score), 50, Color::Yellow, 20, 20);
+        Text livesText = createText(font, "Lives: " + to_string(lives), 50, Color::Yellow, 600, 20);
 
         if (score >= 500 && !level2)
         {
@@ -703,6 +705,9 @@ int game() {
             {
                 window.draw(coin4);
             }
+            window.draw(scoreText);
+            window.draw(livesText);
+
         }
   
         window.display();
