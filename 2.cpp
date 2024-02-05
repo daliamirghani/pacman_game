@@ -241,7 +241,7 @@ int game() {
 
 
     SoundBuffer eat_ghostbuffer;
-    if (!eat_ghostbuffer.loadFromFile("eat_ghost.mp3"))
+    if (!eat_ghostbuffer.loadFromFile("eat_ghost.wav"))
     {
         return -1;
     }
@@ -249,7 +249,14 @@ int game() {
     eat_ghostsound.setBuffer(eat_ghostbuffer);
     eat_ghostsound.setVolume(100.0f);
 
-
+    SoundBuffer win;
+    if (!win.loadFromFile("win.wav"))
+    {
+        return -1;
+    }
+    Sound winsound;
+    winsound.setBuffer(win);
+    winsound.setVolume(100.0f);
 
     SoundBuffer level_upbuffer;
     if (!level_upbuffer.loadFromFile("level_up.wav"))
@@ -429,8 +436,9 @@ int game() {
             {
                 if (level5)
                 {
-                    eat_ghostsound.play();
+                    //eat_ghostsound.play();
                     ghost4_eaten = true;
+                    winsound.play();
                     g4.setPosition(7000, 7000);
                     isWon = true;
 
