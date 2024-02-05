@@ -87,7 +87,7 @@ int main()
 	RenderWindow window(VideoMode(800, 800), "Pac_Man!", Style::Close);
 	MainMenu menu(800, 800);
 	Texture menubackground;
-	//menubackground.loadFromFile("pacman.jpg");
+	menubackground.loadFromFile("bg_pacman.jpg");
 	Sprite bg; //bg for background
 	bg.setTexture(menubackground);
 	bg.setScale(0.5, 0.5);
@@ -170,7 +170,7 @@ int main()
 			MainMenu menu(800, 800);
 			Font font;
 			Texture menubackground;
-			//menubackground.loadFromFile("pacman.jpg");
+			menubackground.loadFromFile("bg_pacman.jpg");
 			Sprite bg; //bg for background
 			bg.setTexture(menubackground);
 			bg.setScale(0.5, 0.5);
