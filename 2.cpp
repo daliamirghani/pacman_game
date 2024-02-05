@@ -94,67 +94,67 @@ int main()
 	int pagenum = 1000; //To know I had selsected which page?
 
 	bool isPaused = false;
-	while (true) {
-		if (pagenum == 1000) {
-			while (window.isOpen())
-			{
-				// clock.restart();
-				Event event;
-				while (window.pollEvent(event))
-				{
-					if (event.type == Event::Closed)
-					{
-						window.close();
-						break;
-					}
-					if (event.type == Event::KeyPressed && event.key.code == Keyboard::Space)
-					{
+    while (true) {
+        if (pagenum == 1000) {
+            while (window.isOpen())
+            {
+                // clock.restart();
+                Event event;
+                while (window.pollEvent(event))
+                {
+                    if (event.type == Event::Closed)
+                    {
+                        window.close();
+                        break;
+                    }
+                    if (event.type == Event::KeyPressed && event.key.code == Keyboard::Space)
+                    {
 
-						isPaused = !isPaused;
-					}
-					if (event.type == Event::KeyPressed)
-					{
-						if (event.key.code == Keyboard::Up)
-						{
-							menu.moveup();
-							break;
-						}
-					}
-					if (event.type == Event::KeyPressed)
-					{
-						if (event.key.code == Keyboard::Down)
-						{
-							menu.movedown();
-							break;
-						}
-					}
-					//chose page
-					if (event.key.code == Keyboard::Return)
-					{
-						if (menu.Pressed() == 0)
-						{
-							window.close();
-							pagenum = 0;   //option start a new game
-						}
-						if (menu.Pressed() == 1)
-						{
-							window.close();
-							pagenum = 1;   //option about us
-						}
-						if (menu.Pressed() == 2)
-						{
-							window.close();
-							pagenum = 2;   //option exit
-						}
-					}
-				}
-				window.clear();
-				window.draw(bg);
-				menu.draw(window);
-				window.display();
+                        isPaused = !isPaused;
+                    }
+                    if (event.type == Event::KeyPressed)
+                    {
+                        if (event.key.code == Keyboard::Up)
+                        {
+                            menu.moveup();
+                            break;
+                        }
+                    }
+                    if (event.type == Event::KeyPressed)
+                    {
+                        if (event.key.code == Keyboard::Down)
+                        {
+                            menu.movedown();
+                            break;
+                        }
+                    }
+                    //chose page
+                    if (event.key.code == Keyboard::Return)
+                    {
+                        if (menu.Pressed() == 0)
+                        {
+                            window.close();
+                            pagenum = 0;   //option start a new game
+                        }
+                        if (menu.Pressed() == 1)
+                        {
+                            window.close();
+                            pagenum = 1;   //option about us
+                        }
+                        if (menu.Pressed() == 2)
+                        {
+                            window.close();
+                            pagenum = 2;   //option exit
+                        }
+                    }
+                }
+                window.clear();
+                window.draw(bg);
+                menu.draw(window);
+                window.display();
 
 
-			}
+            }
 
 
 
@@ -162,53 +162,53 @@ int main()
             if (pagenum == 0)
                 game();
 
-		}
-
-		if (pagenum == 1) //option about us
-		{
-			RenderWindow window_about(VideoMode(800, 800), "Options", Style::Close);
-			MainMenu menu(800, 800);
-			Font font;
-			Texture menubackground;
-			menubackground.loadFromFile("bg_pacman.jpg");
-			Sprite bg; //bg for background
-			bg.setTexture(menubackground);
-			bg.setScale(0.5, 0.5);
-			font.loadFromFile("Namecat.ttf");
-
-			Text text1 = createText(font, "Dalia Ahmed                 Gehad Ebrahim", 24, Color(255, 204, 0), 180.f, 400.f);
-			Text text2 = createText(font, "Habiba Mokhtar              Tasneem Shelah", 24, Color(255, 204, 0), 170.f, 600.f);
-			Text text3 = createText(font, "               Lina Fadel", 24, Color(255, 204, 0), 250.f, 500.f);
-			Text text4 = createText(font, "Creators", 50, Color::Red, 285.f, 80.f);
-			Text text5 = createText(font, "About Us", 60, Color::Red, 270.f, 20.f);
-			while (window_about.isOpen()) {
-				Event event;
-				while (window_about.pollEvent(event)) {
-					if (event.type == Event::Closed) {
-						window_about.close();
-					}
-				}
-
-				window_about.clear();
-				window_about.draw(bg);
-				window_about.draw(text1);
-				window_about.draw(text2);
-				window_about.draw(text3);
-				window_about.draw(text4);
-				window_about.draw(text5);
-				window_about.display();
-			}
-		}
-
-		if (pagenum == 2)                  //option exit
-		{
-			break;
-
-		}
-	}
 
 
+            else  if (pagenum == 1) //option about us
+            {
+                RenderWindow window_about(VideoMode(800, 800), "Options", Style::Close);
+                MainMenu menu(800, 800);
+                Font font;
+                Texture menubackground;
+                menubackground.loadFromFile("bg_pacman.jpg");
+                Sprite bg; //bg for background
+                bg.setTexture(menubackground);
+                bg.setScale(0.5, 0.5);
+                font.loadFromFile("Namecat.ttf");
 
+                Text text1 = createText(font, "Dalia Ahmed                 Gehad Ebrahim", 24, Color(255, 204, 0), 180.f, 400.f);
+                Text text2 = createText(font, "Habiba Mokhtar              Tasneem Shelah", 24, Color(255, 204, 0), 170.f, 600.f);
+                Text text3 = createText(font, "               Lina Fadel", 24, Color(255, 204, 0), 250.f, 500.f);
+                Text text4 = createText(font, "Creators", 50, Color::Red, 285.f, 80.f);
+                Text text5 = createText(font, "About Us", 60, Color::Red, 270.f, 20.f);
+                while (window_about.isOpen()) {
+                    Event event;
+                    while (window_about.pollEvent(event)) {
+                        if (event.type == Event::Closed) {
+                            window_about.close();
+                        }
+                    }
+
+                    window_about.clear();
+                    window_about.draw(bg);
+                    window_about.draw(text1);
+                    window_about.draw(text2);
+                    window_about.draw(text3);
+                    window_about.draw(text4);
+                    window_about.draw(text5);
+                    window_about.display();
+                }
+            }
+
+            if (pagenum == 2)                  //option exit
+            {
+                break;
+
+            }
+        }
+
+
+    }
 	return 0;
 }
 
