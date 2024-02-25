@@ -1,0 +1,25 @@
+////Game development presentation/////
+
+Main menu//// made by creating a class and including each option it it as a function. 
+
+Map ////was created using a 2D array of rectangles, both blue and black. Yellow dots were placed in the blue tiles to represent coins. 
+
+Levels /////were made using boolean variables and increment system. Score counter added different values for small coins, large coins, strawberry and cherry.  Both were presented on screen as strings of text. 
+
+Pacman animation movement//// was made by using a sprite sheet and the function setRectangleRect. Same thing with ghosts. 
+
+Pacman movement///// within the path was tricky as it wasn’t moving in the vector. Our solution to this was to divide the coordinates of the pacman by a factor, which essentially makes it move in an “invisible array”. This method wasn’t the best as it resulted in slightly misaligned movement. 
+
+The ghosts/// being “ghosts” do not move within the path, to increase the difficulty of the game. They target the pacman using a comparison of coordinates, they will increase their coordinates to match up with the current position of the pacman. 
+
+Score////Once the score reached a certain number, the ghost sprite changed its texture and was removed off screen after it collides with the pacman. 
+
+Sound effects//// were added accordingly with each significant change.
+
+
+Bugs ///
+The movement isn’t completely smooth, pacman may not make turns perfectly and sometimes moves on the margins.
+
+Sometimes the ghosts spawn at the starting point and pacman is stuck, please restart the game in this case.
+
+Slight voice effect lag when it comes to the 'pacman eats ghost' scenario

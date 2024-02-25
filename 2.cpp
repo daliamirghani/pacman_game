@@ -14,13 +14,13 @@ float timer = 0.0f;
 float delay = 0.5f;
 float deltaTime = 0;
 
-//function to make ghosts go to random place after touching
-void resetGhostPosition(Sprite& ghost)
-{
-	float x = rand() % 800;
-	float y = rand() % 800;
-	ghost.setPosition(x, y);
-}
+////function to make ghosts go to random place after touching
+//void resetGhostPosition(Sprite& ghost)
+//{
+//	float x = rand() % 800;
+//	float y = rand() % 800;
+//	ghost.setPosition(x, y);
+//}
 
 bool straw_eaten = false;
 bool cherry_eaten = false;
@@ -43,7 +43,7 @@ bool level4 = false;
 bool level5 = false;
 
 
-//function to create a name
+
 Text createText(Font& font, const string& str, unsigned int characterSize, const sf::Color& fillColor, float x, float y) {
 	Text text;
 	text.setFont(font);
@@ -200,7 +200,7 @@ int main()
                 }
             }
 
-            if (pagenum == 2)                  //option exit
+            if (pagenum == 2)               
             {
                 break;
 
@@ -213,11 +213,15 @@ int main()
 }
 
 int game() {
-    srand(time(nullptr));
+    /*srand(time(nullptr));
     float y1 = rand() % 600, x1 = rand() % 600;
     float y2 = rand() % 600, x2 = rand() % 600;
     float y3 = rand() % 600, x3 = rand() % 600;
-    float y4 = rand() % 600, x4 = rand() % 600;
+    float y4 = rand() % 600, x4 = rand() % 600;*/
+    float x1 = 600.0f, y1 = 100.0f; // Ghost 1 initial position (center)
+    float x2 = 600.0f, y2 = 600.0f; // Ghost 2 initial position (center)
+    float x3 = 260.0f, y3 = 120.0f; // Ghost 3 initial position (center)
+    float x4 = 400.0f, y4 = 600.0f; // Ghost 4 initial position (center)
 
     int i = 0;
 
@@ -288,8 +292,7 @@ int game() {
     Pacsprite.setScale(0.05, 0.05);
     Vector2f velocity = { 0, 0 };
     //  Pacsprite.setOrigin(Pacsprite.getLocalBounds().width, Pacsprite.getLocalBounds().height);
-
-      //Pacsprite.setOrigin(Pacsprite.getLocalBounds().width / 2, Pacsprite.getLocalBounds().height / 2);
+    //Pacsprite.setOrigin(Pacsprite.getLocalBounds().width / 2, Pacsprite.getLocalBounds().height / 2);
 
     Pacsprite.setOrigin(Pacsprite.getTextureRect().width / 2, Pacsprite.getTextureRect().height / 2);
     Vector2i Pacsprite_position(0, 0);
@@ -305,8 +308,7 @@ int game() {
     Sprite g1(ghost_red);
     g1.setTextureRect(IntRect(0, 0, 64, 64));
     g1.setScale(0.55, 0.55);
-
-
+ 
     Texture ghost_blue;
     ghost_blue.loadFromFile("Ghosts_blue.png");
     Sprite g2(ghost_blue);
@@ -326,8 +328,16 @@ int game() {
     Sprite g4(ghost_yellow);
     g4.setTextureRect(IntRect(0, 0, 64, 64));
     g4.setScale(0.55, 0.55);
+
     Texture edible_ghost;
     edible_ghost.loadFromFile("edible_ghost.png");
+    Texture lives_tcr;
+    lives_tcr.loadFromFile("3 lives.png");
+    Sprite lives_spr;
+    lives_spr.setTextureRect(IntRect(0, 0, 512, 512));
+    lives_spr.setTexture(lives_tcr);
+    lives_spr.setScale(0.25, 0.25);
+    lives_spr.setPosition(610, -16);
 
 
     bool isPaused = false;
@@ -345,9 +355,7 @@ int game() {
     Text winText = createText(font, "You Won!", 50, Color::Green, 300, 350);
     Text loseText = createText(font, "You Lost :(", 50, Color::Red, 260, 350);
     Text pauseText = createText(font, "Press space to unpause", 50, Color::Yellow, 120, 350);
-
-    /*    pauseText.setFillColor(Color::White);
-        pauseText.setPosition(window.getSize().x - pauseText.getLocalBounds().width - 10, 10);*/
+    Text pause = createText(font, "Press space to pause", 25, Color{ 255,205,0 }, 280, 720);
 
     SoundBuffer coinbuffer;
     if (!coinbuffer.loadFromFile("coin.wav"))
@@ -358,7 +366,7 @@ int game() {
     coinsound.setBuffer(coinbuffer);
     coinsound.setVolume(100.0f);
 
-
+   
 
     SoundBuffer fruitbuffer;
     if (!fruitbuffer.loadFromFile("eat_fruit.wav"))
@@ -413,7 +421,7 @@ int game() {
     {
         window.clear();
         Text scoreText = createText(font, "Score: " + to_string(score), 50, Color::Yellow, 20, 20);
-        Text livesText = createText(font, "Lives: " + to_string(lives), 50, Color::Yellow, 600, 20);
+        Text livesText = createText(font, "Lives: ", 50, Color::Yellow, 450, 20);
 
         if (score >= 500 && !level2)
         {
@@ -475,8 +483,7 @@ int game() {
             window.draw(loseText);
         else
         {
-
-
+          
             Vector2f pacPosition = Pacsprite.getPosition();
 
             if (pacPosition.x > g1.getPosition().x)
@@ -753,10 +760,10 @@ int game() {
                         i = i % 2;
                         Pacsprite.setTextureRect(IntRect((i * 65.5), 64, 65.5, 64));
                         velocity.y = speed;
-                        g1.setTextureRect(IntRect((i * 64), 0, 64, 64));
-                        g2.setTextureRect(IntRect((i * 65.5), 0, 65.5, 64));
-                        g3.setTextureRect(IntRect((i * 65.5), 0, 65.5, 64));
-                        g4.setTextureRect(IntRect((i * 65.5), 0, 65.5, 64));
+                        g1.setTextureRect(IntRect((i * 64), 64, 64, 64));
+                        g2.setTextureRect(IntRect((i * 65.5), 64, 65.5, 64));
+                        g3.setTextureRect(IntRect((i * 65.5), 64, 65.5, 64));
+                        g4.setTextureRect(IntRect((i * 65.5), 64, 65.5, 64));
                         timer = delay;
                     }
                     else
@@ -782,10 +789,10 @@ int game() {
 
                         Pacsprite.setTextureRect(IntRect((i * 65.5), 192, 65.5, 64));
                         velocity.y = -speed;
-                        g1.setTextureRect(IntRect((i * 65), 0, 65, 65));
-                        g2.setTextureRect(IntRect((i * 65.5), 0, 61, 64));
-                        g3.setTextureRect(IntRect((i * 65.5), 0, 61, 64));
-                        g4.setTextureRect(IntRect((i * 65.5), 0, 61, 64));
+                        g1.setTextureRect(IntRect((i * 65), 192, 65, 65));
+                        g2.setTextureRect(IntRect((i * 65.5), 192, 61, 64));
+                        g3.setTextureRect(IntRect((i * 65.5), 192, 61, 64));
+                        g4.setTextureRect(IntRect((i * 65.5), 192, 61, 64));
                         timer = delay;
                     }
                     else
@@ -854,15 +861,34 @@ int game() {
             {
                 window.draw(coin4);
             }
+            if (lives == 3)
+            {
+                lives_spr.setTextureRect(IntRect(0, 0, 512, 512));
+                window.draw(livesText);
+                window.draw(lives_spr);
+            }
+            else if (lives == 2)
+            {
+                lives_spr.setTextureRect(IntRect(0, 0, 342, 512));
+                window.draw(livesText);
+                window.draw(lives_spr);
+            }
+            else if (lives == 1)
+            {
+                lives_spr.setTextureRect(IntRect(0, 0, 172, 512));
+                window.draw(livesText);
+                window.draw(lives_spr);
+            }
             window.draw(scoreText);
-            window.draw(livesText);
+           window.draw(livesText);
+            window.draw(pause);
+            window.draw(lives_spr);
 
         }
 
         window.display();
         deltaTime = clock.getElapsedTime().asSeconds();
-        cout << score << endl;
-        cout << level << endl;
+        
 
     }
 }
