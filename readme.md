@@ -19,3 +19,4 @@ To play the game locally, follow these steps:
 2. Open the VisualStudio Solution file and Debug.
 3. Enjoy !!
 
+** credits for all team members are in the game **
